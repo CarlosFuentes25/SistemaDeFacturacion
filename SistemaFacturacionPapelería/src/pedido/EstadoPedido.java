@@ -1,3 +1,5 @@
+package pedido;
+
 public enum EstadoPedido {
     CREADO,
     REGISTRADO,

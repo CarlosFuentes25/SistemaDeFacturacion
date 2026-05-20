@@ -1,3 +1,5 @@
+package operaciones;
+
 public class PantallaPrincipal {
 
     public void mostrarMenuPrincipal() {

@@ -1,3 +1,9 @@
+package ventas;
+
+import facturacion.Cliente;
+import pedido.Pedido;
+import stock.CatalogoProducto;
+
 import java.util.ArrayList;
 
 public class GestorVenta {

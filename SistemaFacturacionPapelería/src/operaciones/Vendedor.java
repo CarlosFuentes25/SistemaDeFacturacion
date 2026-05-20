@@ -1,3 +1,5 @@
+package operaciones;
+
 public class Vendedor {
     private String idVendedor;
     private String nombre;

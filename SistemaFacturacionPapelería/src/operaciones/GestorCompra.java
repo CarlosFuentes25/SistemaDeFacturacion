@@ -1,12 +1,16 @@
+package operaciones;
+
+import facturacion.Factura;
+import pedido.Proforma;
 
 import java.util.ArrayList;
 
 public class GestorCompra {
 
-	private ArrayList<Factura> listaClientes;      
+	private ArrayList<Factura> listaClientes;
     private ArrayList<Compra> listaClientes2;     
-    private ArrayList<Devolucion> listaClientes3; 
-    private ArrayList<Proforma> listaClientes4;   
+    private ArrayList<Devolucion> listaClientes3;
+    private ArrayList<Proforma> listaClientes4;
     private ArrayList<Comprobante> listaClientes5;
 
     public GestorCompra() {

@@ -1,3 +1,4 @@
+package pedido;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +7,7 @@ public class Pedido {
 
 	private String idPedido;
     private Date fecha;
-    private EstadoPedido estado; 
+    private EstadoPedido estado;
     private double total;
     private ArrayList<DetallePedido> listaDetalles; 
 

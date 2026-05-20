@@ -1,3 +1,9 @@
+package ventas;
+
+import facturacion.Factura;
+import operaciones.Vendedor;
+import pedido.Pedido;
+
 import java.util.Date;
 
 public class Venta {

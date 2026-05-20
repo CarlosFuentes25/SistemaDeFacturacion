@@ -1,3 +1,6 @@
+package operaciones;
+
+import facturacion.Factura;
 
 public class Devolucion {
     private String idDevolucion;

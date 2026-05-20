@@ -1,3 +1,5 @@
+package pedido;
+
 // Clase Padre DetalleProducto
 public class DetalleProducto {
     protected int cantidad;

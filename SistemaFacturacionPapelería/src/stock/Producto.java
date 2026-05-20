@@ -1,3 +1,4 @@
+package stock;
 
 public class Producto {
     private String idProducto;
