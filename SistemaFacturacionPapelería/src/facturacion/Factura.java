@@ -10,7 +10,7 @@ public class Factura {
     private double valorIVA;
     private EstadoPago estadoPago;
     private double baseImponible;
-    private ArrayList<Compra> listaCompras;
+    private ArrayList<Factura> FacturaPagada;
 
     // Constructor
     public Factura(Date fecha, double baseImponible) {
@@ -19,7 +19,7 @@ public class Factura {
         this.fecha = fecha;
         this.baseImponible = baseImponible;
         this.estadoPago = EstadoPago.PENDIENTE; //factura nace con estado pendiente
-        this.listaCompras = new ArrayList<>();
+        this.FacturaPagada = new ArrayList<>();
         
         this.calcularImpuesto();
     }
@@ -49,8 +49,8 @@ public class Factura {
         return baseImponible;
     }
 
-    public ArrayList<Compra> getListaCompras() {
-        return listaCompras;
+    public ArrayList<Factura> getFacturaPagada() {
+        return FacturaPagada;
     }
 
     // --- SETTERS ---
