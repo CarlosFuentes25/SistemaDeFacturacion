@@ -1,8 +1,8 @@
 package ventas;
 
-import inventario.CatalogoProducto;
-import inventario.Producto;
-import pedidos.Pedido;
+import stock.CatalogoProducto;
+import stock.Producto;
+import pedido.Pedido;
 
 public class GestorVenta {
     private CatalogoProducto catalogo;

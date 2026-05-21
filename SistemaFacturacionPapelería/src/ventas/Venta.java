@@ -1,6 +1,6 @@
 package ventas;
 
-import pedidos.Pedido;
+import pedido.Pedido;
 import java.util.Date;
 
 public class Venta {
