@@ -1,38 +1,40 @@
 package ventas;
 
-import facturacion.Factura;
-import pedido.Pedido;
-
+import pedidos.Pedido;
 import java.util.Date;
 
 public class Venta {
-
     private String idVenta;
     private Date fecha;
     private double totalVenta;
-    private Vendedor vendedor;
-    private Factura factura;
+    private double montoPagado;
+    private String metodoPago;
+
     private Pedido pedido;
+    private Vendedor vendedoor;
 
-    public Venta() {
-        this.fecha = new Date();
-    }
-
-    public Venta(String idVenta, Date fecha, double totalVenta, Pedido pedido, Vendedor vendedor) {
+    public Venta(String idVenta, Pedido pedido) {
         this.idVenta = idVenta;
-        this.fecha = fecha;
-        this.totalVenta = totalVenta;
+        this.fecha = new Date();
         this.pedido = pedido;
-        this.vendedor = vendedor;
+        if (pedido != null) {
+            this.totalVenta = pedido.getTotal();
+        }
     }
 
     public void confirmarVenta(Pedido pedido, Vendedor vend) {
-        this.pedido = pedido;     
-        this.vendedor = vend;     
-        this.totalVenta = pedido.calcularTotalPedido(); 
-        this.factura = new Factura(this.fecha, this.totalVenta); 
+        this.pedido = pedido;
+        this.vendedoor = vend;
+        if (vend != null) {
+            vend.agregarVenta(this);
+        }
     }
 
+    public boolean validarMontoCompleto(double totalFactura) {
+        return this.montoPagado >= totalFactura;
+    }
+
+    // GETTERS Y SETTERS
     public String getIdVenta() { return idVenta; }
     public void setIdVenta(String idVenta) { this.idVenta = idVenta; }
 
@@ -42,12 +44,15 @@ public class Venta {
     public double getTotalVenta() { return totalVenta; }
     public void setTotalVenta(double totalVenta) { this.totalVenta = totalVenta; }
 
-    public Vendedor getVendedor() { return vendedor; }
-    public void setVendedor(Vendedor vendedor) { this.vendedor = vendedor; }
+    public double getMontoPagado() { return montoPagado; }
+    public void setMontoPagado(double montoPagado) { this.montoPagado = montoPagado; }
 
-    public Factura getFactura() { return factura; }
-    public void setFactura(Factura factura) { this.factura = factura; }
+    public String getMetodoPago() { return metodoPago; }
+    public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }
 
     public Pedido getPedido() { return pedido; }
     public void setPedido(Pedido pedido) { this.pedido = pedido; }
+
+    public Vendedor getVendedoor() { return vendedoor; }
+    public void setVendedoor(Vendedor vendedoor) { this.vendedoor = vendedoor; }
 }

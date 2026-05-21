@@ -1,51 +1,34 @@
 package ventas;
 
-import facturacion.Cliente;
-import pedido.Pedido;
-import stock.CatalogoProducto;
-
-import java.util.ArrayList;
+import inventario.CatalogoProducto;
+import inventario.Producto;
+import pedidos.Pedido;
 
 public class GestorVenta {
-
-    private ArrayList<Cliente> listaClientes;
-    private ArrayList<Pedido> listaPedidos;
-    private ArrayList<Venta> listaVentas;
     private CatalogoProducto catalogo;
 
-    public GestorVenta() {
-        this.listaClientes = new ArrayList<>();
-        this.listaPedidos = new ArrayList<>();
-        this.listaVentas = new ArrayList<>();
-    }
-
-    public GestorVenta(ArrayList<Cliente> listaClientes, ArrayList<Pedido> listaPedidos, ArrayList<Venta> listaVentas, CatalogoProducto catalogo) {
-        this.listaClientes = listaClientes;
-        this.listaPedidos = listaPedidos;
-        this.listaVentas = listaVentas;
+    public GestorVenta(CatalogoProducto catalogo) {
         this.catalogo = catalogo;
     }
 
-    public void registrarNuevoCliente(Cliente c) {
-        this.listaClientes.add(c);
+    public void registrarNuevoCliente(facturacion.Cliente c) {
     }
 
     public Venta iniciarProcesoVenta(Pedido p) {
-        this.listaPedidos.add(p);
-        Venta nuevaVenta = new Venta();
-        this.listaVentas.add(nuevaVenta);
-        return nuevaVenta;
+        return new Venta("VENTA-" + p.getTotal(), p);
     }
 
-    public ArrayList<Cliente> getListaClientes() { return listaClientes; }
-    public void setListaClientes(ArrayList<Cliente> listaClientes) { this.listaClientes = listaClientes; }
+    public String generarProforma() {
+        return "Proforma inicializada";
+    }
 
-    public ArrayList<Pedido> getListaPedidos() { return listaPedidos; }
-    public void setListaPedidos(ArrayList<Pedido> listaPedidos) { this.listaPedidos = listaPedidos; }
+    public void gestionarStock(Producto p, int cant) {
+        if (catalogo != null && p != null) {
+            catalogo.actualizarExistencias(p, cant);
+        }
+    }
 
-    public ArrayList<Venta> getListaVentas() { return listaVentas; }
-    public void setListaVentas(ArrayList<Venta> listaVentas) { this.listaVentas = listaVentas; }
-
+    // GETTERS Y SETTERS
     public CatalogoProducto getCatalogo() { return catalogo; }
     public void setCatalogo(CatalogoProducto catalogo) { this.catalogo = catalogo; }
 }
