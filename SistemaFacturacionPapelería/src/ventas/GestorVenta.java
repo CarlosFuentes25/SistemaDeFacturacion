@@ -2,50 +2,53 @@ package ventas;
 
 import facturacion.Cliente;
 import pedido.Pedido;
+import pedido.Proforma;
 import stock.CatalogoProducto;
-
+import stock.Producto;
 import java.util.ArrayList;
 
 public class GestorVenta {
-
-    private ArrayList<Cliente> listaClientes;
-    private ArrayList<Pedido> listaPedidos;
-    private ArrayList<Venta> listaVentas;
     private CatalogoProducto catalogo;
+    
+    // LISTADOS DE PERSISTENCIA (Las tablas de tu Base de Datos en Memoria)
+    private ArrayList<Cliente> directorioClientes;
+    private ArrayList<Venta> historialVentas;
+    private ArrayList<Proforma> historialProformas;
 
-    public GestorVenta() {
-        this.listaClientes = new ArrayList<>();
-        this.listaPedidos = new ArrayList<>();
-        this.listaVentas = new ArrayList<>();
-    }
-
-    public GestorVenta(ArrayList<Cliente> listaClientes, ArrayList<Pedido> listaPedidos, ArrayList<Venta> listaVentas, CatalogoProducto catalogo) {
-        this.listaClientes = listaClientes;
-        this.listaPedidos = listaPedidos;
-        this.listaVentas = listaVentas;
+    public GestorVenta(CatalogoProducto catalogo) {
         this.catalogo = catalogo;
+        this.directorioClientes = new ArrayList<>();
+        this.historialVentas = new ArrayList<>();
+        this.historialProformas = new ArrayList<>();
     }
 
     public void registrarNuevoCliente(Cliente c) {
-        this.listaClientes.add(c);
+        // Evitar duplicados por cédula
+        for(Cliente existente : directorioClientes) {
+            if(existente.getCedula().equals(c.getCedula())) return;
+        }
+        this.directorioClientes.add(c);
     }
 
     public Venta iniciarProcesoVenta(Pedido p) {
-        this.listaPedidos.add(p);
-        Venta nuevaVenta = new Venta();
-        this.listaVentas.add(nuevaVenta);
+        Venta nuevaVenta = new Venta("VNT-" + System.currentTimeMillis(), p);
+        this.historialVentas.add(nuevaVenta); // Se guarda en el registro
         return nuevaVenta;
     }
 
-    public ArrayList<Cliente> getListaClientes() { return listaClientes; }
-    public void setListaClientes(ArrayList<Cliente> listaClientes) { this.listaClientes = listaClientes; }
-
-    public ArrayList<Pedido> getListaPedidos() { return listaPedidos; }
-    public void setListaPedidos(ArrayList<Pedido> listaPedidos) { this.listaPedidos = listaPedidos; }
-
-    public ArrayList<Venta> getListaVentas() { return listaVentas; }
-    public void setListaVentas(ArrayList<Venta> listaVentas) { this.listaVentas = listaVentas; }
+    public Proforma generarProforma(Pedido p) {
+        Proforma prof = new Proforma("PRF-" + System.currentTimeMillis(), p.getListaDetalles());
+        this.historialProformas.add(prof); // Se guarda en el registro de cotizaciones
+        return prof;
+    }
+    
+    // Método para recuperar una proforma pasada
+    public Proforma buscarProforma(String id) {
+        for(Proforma prof : historialProformas) {
+            if(prof.getIdProforma().equals(id)) return prof;
+        }
+        return null;
+    }
 
     public CatalogoProducto getCatalogo() { return catalogo; }
-    public void setCatalogo(CatalogoProducto catalogo) { this.catalogo = catalogo; }
 }

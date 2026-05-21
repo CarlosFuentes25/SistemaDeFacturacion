@@ -167,34 +167,34 @@ public class PantallaPrincipalView extends JFrame {
         // Fila 1 - Columna 0: Iniciar Pedido
         gbc.gridx = 0; gbc.gridy = 0;
         panelRejilla.add(crearTarjetaModulo("⚡", "MÓDULO DE VENTAS", 
-            "Abre el panel de facturación interactiva para registrar artículos de papelería.", 
-            btnIniciarPedido, UIThemeManager.PASTEL_BLUE, UIThemeManager.TEXTO_MÓDULO_BLUE), gbc);
+            "", 
+            btnIniciarPedido, UIThemeManager.PASTEL_BLUE, UIThemeManager.TEXTO_MODULO_BLUE), gbc);
 
         // Fila 1 - Columna 1: Consultar Producto
         gbc.gridx = 1; gbc.gridy = 0;
         panelRejilla.add(crearTarjetaModulo("📦", "LISTADO DE PRODUCTOS", 
-            "Verifica la disponibilidad de stock, códigos internos y lista de precios base.", 
-            btnConsultarProducto, UIThemeManager.PASTEL_MINT, UIThemeManager.TEXTO_MÓDULO_MINT), gbc);
+            "", 
+            btnConsultarProducto, UIThemeManager.PASTEL_MINT, UIThemeManager.TEXTO_MODULO_MINT), gbc);
 
         // Fila 1 - Columna 2: Generar Proforma
         gbc.gridx = 2; gbc.gridy = 0;
         panelRejilla.add(crearTarjetaModulo("📄", "COTIZACIONES", 
-            "Emite presupuestos temporales detallados sin validez tributaria para clientes.", 
-            btnGenerarProforma, UIThemeManager.PASTEL_PEACH, UIThemeManager.TEXTO_MÓDULO_PEACH), gbc);
+            "", 
+            btnGenerarProforma, UIThemeManager.PASTEL_PEACH, UIThemeManager.TEXTO_MODULO_PEACH), gbc);
 
         // Fila 2 - Columna 0: Cambios y Devoluciones
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.gridwidth = 2; // Esta tarjeta se expande a lo ancho ocupando dos columnas
         panelRejilla.add(crearTarjetaModulo("🔄", "SOPORTE POST-VENTA", 
-            "Gestiona las solicitudes de cambio de material escolar defectuoso o procesamiento de notas de crédito.", 
-            btnCambiosDevolucion, UIThemeManager.PASTEL_LAVENDER, UIThemeManager.TEXTO_MÓDULO_LAVENDER), gbc);
+            "", 
+            btnCambiosDevolucion, UIThemeManager.PASTEL_LAVENDER, UIThemeManager.TEXTO_MODULO_LAVENDER), gbc);
 
         // Fila 2 - Columna 2: Salir
         gbc.gridx = 2; gbc.gridy = 1;
         gbc.gridwidth = 1; // Restablecer el ancho de columna estándar
         panelRejilla.add(crearTarjetaModulo("❌", "SESIÓN", 
-            "Finaliza las operaciones de la caja registradora de forma segura.", 
-            btnSalir, UIThemeManager.PASTEL_ROSE, UIThemeManager.TEXTO_MÓDULO_ROSE), gbc);
+            "", 
+            btnSalir, UIThemeManager.PASTEL_ROSE, UIThemeManager.TEXTO_MODULO_ROSE), gbc);
 
         return panelRejilla;
     }

@@ -1,79 +1,45 @@
 package pedido;
 
-import java.util.Date;
+import stock.DetalleProducto;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Proforma {
     private String idProforma;
     private double totalProforma;
     private Date fecha;
-    
-   
-    private ArrayList<DetalleProforma> listaDetallesProforma;
+    private ArrayList<DetalleProducto> listaDetalleProforma;
 
-    // Constructor
-    public Proforma(String idProforma, Date fecha) {
+    public Proforma(String idProforma, ArrayList<DetalleProducto> detalles) {
         this.idProforma = idProforma;
-        this.fecha = fecha;
-        this.totalProforma = 0.0;
-        this.listaDetallesProforma = new ArrayList<>();
+        this.fecha = new Date();
+        this.listaDetalleProforma = detalles;
+        this.totalProforma = calcularTotalProforma();
     }
 
-    // --- GETTERS ---
-    public String getIdProforma() {
-        return idProforma;
-    }
-
-    public double getTotalProforma() {
-        return totalProforma;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public ArrayList<DetalleProforma> getListaDetalles() {
-        return listaDetallesProforma;
-    }
-
-    // --- SETTERS ---
-    // (Omitimos setter de idProforma por inmutabilidad, y de totalProforma porque se calcula solo)
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-  
     public double calcularTotalProforma() {
-        double sumaTotal = 0.0;
-        
-        
-        for (DetalleProforma detalle : this.listaDetallesProforma) {
-            sumaTotal += detalle.getSubtotal(); 
+        double total = 0.0;
+        for (DetalleProducto dp : listaDetalleProforma) {
+            total += dp.getSubtotal();
         }
-
-        this.totalProforma = sumaTotal;
-        return this.totalProforma;
+        return total;
     }
 
-   
     public String imprimirBorrador() {
-        StringBuilder borrador = new StringBuilder();
-        
-        borrador.append("=== BORRADOR DE PROFORMA ===\n");
-        borrador.append("ID Proforma: ").append(this.idProforma).append("\n");
-        borrador.append("Fecha: ").append(this.fecha.toString()).append("\n");
-        borrador.append("Cantidad de items: ").append(this.listaDetallesProforma.size()).append("\n");
-        borrador.append("TOTAL ESTIMADO: $").append(this.totalProforma).append("\n");
-        borrador.append("============================\n");
-        
-        return borrador.toString();
-    }
-    
-    public void agregarDetalle(DetalleProforma detalle) {
-        if (detalle != null) {
-            this.listaDetallesProforma.add(detalle);
-            this.calcularTotalProforma(); // Asegura que el total siempre esté actualizado
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== PROFORMA TINTA & TRAZO [").append(idProforma).append("] ===\n");
+        for(DetalleProducto dp : listaDetalleProforma) {
+            sb.append(dp.getCantidad()).append("x ").append(dp.getProducto().getNombre())
+              .append(" - $").append(String.format("%.2f", dp.getSubtotal())).append("\n");
         }
+        sb.append("---------------------------------\n");
+        sb.append("TOTAL ESTIMADO: $").append(String.format("%.2f", totalProforma));
+        return sb.toString();
     }
+
+    // Getters y Setters
+    public String getIdProforma() { return idProforma; }
+    public double getTotalProforma() { return totalProforma; }
+    public Date getFecha() { return fecha; }
+    public ArrayList<DetalleProducto> getListaDetalleProforma() { return listaDetalleProforma; }
 }

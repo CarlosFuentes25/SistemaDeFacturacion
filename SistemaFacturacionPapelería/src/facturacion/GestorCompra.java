@@ -1,72 +1,55 @@
 package facturacion;
 
-import pedido.Proforma;
-
+import ventas.Venta;
+import stock.DetalleProducto;
 import java.util.ArrayList;
 
 public class GestorCompra {
 
-	private ArrayList<Factura> listaClientes;
-    private ArrayList<Compra> listaClientes2;     
-    private ArrayList<Devolucion> listaClientes3;
-    private ArrayList<Proforma> listaClientes4;
-    private ArrayList<Comprobante> listaClientes5;
+    // LISTADOS DE PERSISTENCIA
+    private ArrayList<Factura> historialFacturas;
+    private ArrayList<Devolucion> historialDevoluciones;
 
     public GestorCompra() {
-        this.listaClientes = new ArrayList<>();
-        this.listaClientes2 = new ArrayList<>();
-        this.listaClientes3 = new ArrayList<>();
-        this.listaClientes4 = new ArrayList<>();
-        this.listaClientes5 = new ArrayList<>();
+        this.historialFacturas = new ArrayList<>();
+        this.historialDevoluciones = new ArrayList<>();
     }
 
-    public Factura emitirFactura(Venta v) {
-        return new Factura(v.getFecha(), v.getTotalVenta()); 
+    public Factura emitirFactura(Venta v, Cliente c) {
+        Factura nuevaFactura = new Factura("FAC-" + System.currentTimeMillis(), v, c);
+        this.historialFacturas.add(nuevaFactura); // Guardamos la factura
+        return nuevaFactura;
     }
 
-    public void procesarPago(Factura pagoCompra) {
+    public boolean procesarPago(Factura f, double montoPagado) {
+        if(montoPagado >= f.getTotal() && f.getEstadoPago() == EstadoPago.PENDIENTE) {
+            f.setEstadoPago(EstadoPago.PAGADO);
+            return true;
+        }
+        return false; // Evita pagar si no alcanza el dinero o si ya está pagada/anulada
     }
 
-    public void gestionarDevolucion(Factura motivo) {
+    // CONTROL TOTAL: REEMBOLSO CON DEVOLUCIÓN DE STOCK REAL
+    public double gestionarReembolso(Factura f, String motivo) {
+        if (f.getEstadoPago() != EstadoPago.PAGADO) return 0.0; // Solo se reembolsa si se pagó
+        
+        Devolucion devolucion = new Devolucion("DEV-" + System.currentTimeMillis(), motivo);
+        f.setDevolucion(devolucion);
+        f.setEstadoPago(EstadoPago.ANULADO);
+        
+        // Magia de Logística: Leer la factura y devolver los productos al catálogo
+        for(DetalleProducto dp : f.getVenta().getPedido().getListaDetalles()) {
+            dp.getProducto().aumentarStock(dp.getCantidad());
+        }
+        
+        this.historialDevoluciones.add(devolucion); // Guardar registro del movimiento
+        return devolucion.calculaReembolso(f);
     }
 
-    public ArrayList<Factura> getListaClientes() {
-        return listaClientes;
-    }
-
-    public void setListaClientes(ArrayList<Factura> listaClientes) {
-        this.listaClientes = listaClientes;
-    }
-
-    public ArrayList<Compra> getListaClientes2() {
-        return listaClientes2;
-    }
-
-    public void setListaClientes2(ArrayList<Compra> listaClientes2) {
-        this.listaClientes2 = listaClientes2;
-    }
-
-    public ArrayList<Devolucion> getListaClientes3() {
-        return listaClientes3;
-    }
-
-    public void setListaClientes3(ArrayList<Devolucion> listaClientes3) {
-        this.listaClientes3 = listaClientes3;
-    }
-
-    public ArrayList<Proforma> getListaClientes4() {
-        return listaClientes4;
-    }
-
-    public void setListaClientes4(ArrayList<Proforma> listaClientes4) {
-        this.listaClientes4 = listaClientes4;
-    }
-
-    public ArrayList<Comprobante> getListaClientes5() {
-        return listaClientes5;
-    }
-
-    public void setListaClientes5(ArrayList<Comprobante> listaClientes5) {
-        this.listaClientes5 = listaClientes5;
+    public Factura buscarFactura(String idFactura) {
+        for(Factura f : historialFacturas) {
+            if(f.getIdFactura().equals(idFactura)) return f;
+        }
+        return null;
     }
 }

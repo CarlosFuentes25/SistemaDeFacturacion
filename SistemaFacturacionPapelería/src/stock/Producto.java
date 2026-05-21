@@ -6,41 +6,10 @@ public class Producto {
     private double precio;
     private int stock;
 
-    // Constructor completo
     public Producto(String idProducto, String nombre, double precio, int stock) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
-        this.stock = stock;
-    }
-
-    // Getters y Setters
-    public String getIdProducto() {
-        return idProducto;
-    }
-
-    // Se omite el setter de idProducto para asegurar la inmutabilidad del ID
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
         this.stock = stock;
     }
 
@@ -51,8 +20,25 @@ public class Producto {
     public void descontarStock(int cantComprada) {
         if (verificarDisponibilidad(cantComprada)) {
             this.stock -= cantComprada;
-        } else {
-            System.out.println("Error: No hay suficiente stock para descontar.");
         }
+    }
+
+    public void aumentarStock(int cant) {
+        this.stock += cant;
+    }
+
+    // Getters y Setters completos
+    public String getIdProducto() { return idProducto; }
+    public void setIdProducto(String idProducto) { this.idProducto = idProducto; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+    public int getStock() { return stock; }
+    public void setStock(int stock) { this.stock = stock; }
+
+    @Override
+    public String toString() {
+        return "[" + idProducto + "] " + nombre + " - $" + precio + " (Stock: " + stock + ")";
     }
 }
