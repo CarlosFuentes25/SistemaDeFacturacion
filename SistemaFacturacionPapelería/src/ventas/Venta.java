@@ -1,6 +1,9 @@
 package ventas;
 
+import pedido.EstadoPedido;
 import pedido.Pedido;
+import facturacion.Factura;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Venta {
@@ -11,7 +14,8 @@ public class Venta {
     private String metodoPago;
 
     private Pedido pedido;
-    private Vendedor vendedoor;
+    private Vendedor vendedor;
+    private ArrayList<Factura> listaFacturas;
 
     public Venta(String idVenta, Pedido pedido) {
         this.idVenta = idVenta;
@@ -20,11 +24,15 @@ public class Venta {
         if (pedido != null) {
             this.totalVenta = pedido.getTotal();
         }
+        this.listaFacturas = new ArrayList<>();
     }
 
     public void confirmarVenta(Pedido pedido, Vendedor vend) {
         this.pedido = pedido;
-        this.vendedoor = vend;
+        this.vendedor = vend;
+        if (this.pedido != null) {
+            this.pedido.setEstado(EstadoPedido.REGISTRADO);
+        }
         if (vend != null) {
             vend.agregarVenta(this);
         }
@@ -53,6 +61,9 @@ public class Venta {
     public Pedido getPedido() { return pedido; }
     public void setPedido(Pedido pedido) { this.pedido = pedido; }
 
-    public Vendedor getVendedoor() { return vendedoor; }
-    public void setVendedoor(Vendedor vendedoor) { this.vendedoor = vendedoor; }
+    public Vendedor getVendedor() { return vendedor; }
+    public void setVendedor(Vendedor vendedor) { this.vendedor = vendedor; }
+
+    public ArrayList<Factura> getListaFacturas() { return listaFacturas; }
+    public void setListaFacturas(ArrayList<Factura> listaFacturas) { this.listaFacturas = listaFacturas; }
 }

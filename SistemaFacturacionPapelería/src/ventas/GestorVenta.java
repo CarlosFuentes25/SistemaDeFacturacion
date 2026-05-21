@@ -1,8 +1,9 @@
 package ventas;
 
+import facturacion.Cliente;
+import pedido.Pedido;
 import stock.CatalogoProducto;
 import stock.Producto;
-import pedido.Pedido;
 
 public class GestorVenta {
     private CatalogoProducto catalogo;
@@ -11,15 +12,17 @@ public class GestorVenta {
         this.catalogo = catalogo;
     }
 
-    public void registrarNuevoCliente(facturacion.Cliente c) {
+    public void registrarNuevoCliente(Cliente c) {
+
     }
 
     public Venta iniciarProcesoVenta(Pedido p) {
-        return new Venta("VENTA-" + p.getTotal(), p);
+        double totalPedido = (p != null) ? p.getTotal() : 0.0;
+        return new Venta("VENTA-" + totalPedido, p);
     }
 
     public String generarProforma() {
-        return "Proforma inicializada";
+        return "Proforma generada";
     }
 
     public void gestionarStock(Producto p, int cant) {
