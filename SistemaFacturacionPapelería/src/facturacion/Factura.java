@@ -1,7 +1,7 @@
 package facturacion;
 
 import java.util.Date;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Factura {
     private String idFactura;
@@ -10,21 +10,35 @@ public class Factura {
     private double valorIVA;
     private EstadoPago estadoPago;
     private double baseImponible;
-    private ArrayList<Factura> FacturaPagada;
+    private Cliente cliente;
+    //private ArrayList<Factura> FacturaPagada;
 
     // Constructor
-    public Factura(Date fecha, double baseImponible) {
+    public Factura(Date fecha, double baseImponible, Cliente cliente){
        
         this.idFactura = generarNroFactura(); 
         this.fecha = fecha;
         this.baseImponible = baseImponible;
+        this.cliente = cliente;
         this.estadoPago = EstadoPago.PENDIENTE; //factura nace con estado pendiente
-        this.FacturaPagada = new ArrayList<>();
+        //this.FacturaPagada = new ArrayList<>();
         
         this.calcularImpuesto();
     }
 
-    // --- GETTERS ---
+    // Método para calcular el IVA y el total de la factura
+    public void calcularImpuesto() {
+        double porcentajeIVA = 0.15; 
+        this.valorIVA = this.baseImponible * porcentajeIVA;
+        this.total = this.baseImponible + this.valorIVA;
+    }
+
+    // Método para generar un número de factura único
+    private String generarNroFactura() {
+        return "FAC-" + System.currentTimeMillis();
+    }
+
+    //geters y setters
     public String getIdFactura() {
         return idFactura;
     }
@@ -49,11 +63,11 @@ public class Factura {
         return baseImponible;
     }
 
-    public ArrayList<Factura> getFacturaPagada() {
+    /*public ArrayList<Factura> getFacturaPagada() {
         return FacturaPagada;
-    }
+    } */
+    
 
-    // --- SETTERS ---
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
@@ -66,19 +80,5 @@ public class Factura {
         this.baseImponible = baseImponible;
         
         this.calcularImpuesto();
-    }
-
-
-   
-    public void calcularImpuesto() {
-       
-        double porcentajeIVA = 0.15; 
-        this.valorIVA = this.baseImponible * porcentajeIVA;
-        this.total = this.baseImponible + this.valorIVA;
-    }
-
-   
-    public String generarNroFactura() {
-        return "FAC-" + System.currentTimeMillis();
     }
 }
